@@ -16,20 +16,20 @@ jobs:
           sudo apt update
           sudo apt install -y python3-pip
           pip install -r requirements.txt
-          docker build . --file Dockerfile --tag ${{secrets.YC_REGISTRY_ID}}/companie-service:latest
-          docker run -p 80:80 -d ${{secrets.YC_REGISTRY_ID}}/companie-service:latest
+          docker build . --file Dockerfile --tag ${{secrets.YC_REGISTRY_ID}}/company-service:latest
+          docker run -p 80:80 -d ${{secrets.YC_REGISTRY_ID}}/company-service:latest
           sleep 10
 
       - name: Run tests
         run: |
-          python3 test_companie_service.py
+          python3 test_company_service.py
 
   build-and-push-yc:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Yandex
-      run: docker build . --file Dockerfile --tag cr.yandex/${{secrets.YC_REGISTRY_ID }}/companie-service:latest
+      run: docker build . --file Dockerfile --tag cr.yandex/${{secrets.YC_REGISTRY_ID }}/company-service:latest
     - name: Login to YC Registry
       uses: docker/login-action@v3.0.0
       with:
@@ -37,7 +37,7 @@ jobs:
         username: json_key
         password: ${{ secrets.YC_KEYS }}
     - name: push to YC Registry
-      run: docker push cr.yandex/${{ secrets.YC_REGISTRY_ID }}/companie-service:latest
+      run: docker push cr.yandex/${{ secrets.YC_REGISTRY_ID }}/company-service:latest
 
   deploy:
     name: Deploy
@@ -50,5 +50,5 @@ jobs:
           yc-sa-json-credentials: ${{ secrets.YC_KEYS }}
           container-name: ${{ secrets.YC_CONTAINER_NAME}}
           folder-id: ${{ secrets.YC_FOLDER_ID }}
-          revision-image-url: cr.yandex/${{ secrets.YC_REGISTRY_ID }}/companie-service:latest
+          revision-image-url: cr.yandex/${{ secrets.YC_REGISTRY_ID }}/company-service:latest
           revision-service-account-id: ${{ secrets.YC_SA_ID}}
