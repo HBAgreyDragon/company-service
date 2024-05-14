@@ -45,11 +45,11 @@ def test_get_all_companies(url: str):
 def test_get_company_by_id(url: str):
     res = requests.get(url).json()
     assert (res == {
-        'companies_id': 5,
-        'name': 'OnePlus',
-        'description': 'Компания, специализирующаяся на производстве высококачественных смартфонов с передовыми технологиями и дизайном.',
-        'phone_model': 'OnePlus 9 Pro',
-        'year': 2013
+        'companies_id': 1,
+        'name': 'Apple',
+        'description': 'Мировой лидер в производстве высококачественных технологических устройств, включая iPhone, iPad, MacBook и другие продукты.',
+        'phone_model': 'iPhone 13',
+        'year': 1976
     })
 
 
